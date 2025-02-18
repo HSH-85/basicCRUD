@@ -75,8 +75,14 @@ public class MemberController {
     }
 
     @PostMapping("update")
-    public String update(MemberDto dto,
+    public String update(
+            @Valid @ModelAttribute("member") MemberDto dto,
+                         BindingResult bindingResult,
                          RedirectAttributes redirectAttributes){
+        //Validation 처리
+        if (bindingResult.hasErrors()) {
+            return "updateMember";
+        }
         // 수정 요청
         log.info("####dto : "+dto);
         memberService.updateMember(dto);
